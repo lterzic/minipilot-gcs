@@ -1,0 +1,3 @@
+[submodule "external/minipilot-proto"]
+	path = external/minipilot-proto
+	url = git@github.com:lterzic/minipilot-proto.git
