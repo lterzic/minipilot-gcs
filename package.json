@@ -1,0 +1,13 @@
+{
+    "name": "minipilot-gcs",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "npm run build --workspaces",
+        "build:proto": "npm run build -w packages/proto",
+        "clean": "npm run clean --workspaces && rm -rf node_modules",
+        "start": "npm run build:proto && npm run start -w packages/frontend"
+    }
+}

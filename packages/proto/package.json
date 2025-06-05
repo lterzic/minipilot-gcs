@@ -6,7 +6,7 @@
     "main": "gen/compiled.js",
     "types": "gen/compiled.d.ts",
     "scripts": {
-        "build": "node scripts/build-proto.js",
+        "build": "npm run clean && node scripts/build-proto.js",
         "clean": "rm -rf gen",
         "watch": "tsc --watch"
     },
