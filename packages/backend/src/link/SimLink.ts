@@ -1,15 +1,18 @@
-import { IReceiver, LogCallback, TelemetryCallback } from "./Receiver";
+import { Command, IVehicleLink, LogCallback, TelemetryCallback } from "./VehicleLink";
 import { createSocket, Socket } from "dgram";
 import { pb } from "@minipilot-gcs/proto";
 
-export class ReceiverSim implements IReceiver {
+export class SimLink implements IVehicleLink {
     private telemetryCallback?: TelemetryCallback;
     private logCallback?: LogCallback;
 
+    private commandSocket: Socket;
     private telemetrySocket: Socket;
     // private logSocket: Socket;
 
     constructor(
+        private mpSimAddress: string,
+        private commandPort: number,
         telemetryPort: number,
         logPort: number
     ) {
@@ -19,7 +22,16 @@ export class ReceiverSim implements IReceiver {
                 this.telemetryCallback(telemetry);
             }
         });
-        // this.logSocket = createSocket("udp4");
+        this.commandSocket = createSocket("udp4");
+    }
+
+    public sendCommand(command: Command) {
+        this.commandSocket.send(
+            pb.mp.Command.encode(command).finish(),
+            this.commandPort,
+            this.mpSimAddress
+        );
+        return Promise.resolve();
     }
 
     public onReceiveTelemetry(callback: TelemetryCallback) {
@@ -30,7 +42,7 @@ export class ReceiverSim implements IReceiver {
         this.logCallback = callback;
     }
 
-    public stop() {
+    public close() {
         return Promise.all([
             new Promise<void>((resolve) => {
                 this.telemetrySocket.close(() => {
@@ -62,7 +74,7 @@ export class ReceiverSim implements IReceiver {
             console.log(`${name} socket closed...`);
         });
 
-        socket.bind(port);
+        socket.bind(port, this.mpSimAddress);
 
         return socket;
     }
