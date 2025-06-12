@@ -1,12 +1,12 @@
 {
+    "private": true,
     "name": "@minipilot-gcs/backend",
-    "version": "1.0.0",
     "description": "Receive messages from minipilot and provide access points for (or push to) the frontend",
     "main": "dist/index.js",
     "scripts": {
         "build": "tsc",
-        "start": "node dist/index.js",
-        "dev": "ts-node src/index.ts"
+        "clean": "rm -rf dist",
+        "start": "node dist/index.js"
     },
     "dependencies": {
         "@minipilot-gcs/proto": "*",
@@ -15,7 +15,6 @@
     "devDependencies": {
         "@types/node": "^20.9.0",
         "@types/ws": "^8.5.8",
-        "typescript": "^5.2.2",
-        "ts-node": "^10.9.1"
+        "typescript": "^5.2.2"
     }
 }

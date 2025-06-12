@@ -30,6 +30,12 @@ export interface IVehicleLink {
      */
     close: () => Promise<[void]>;
 
+    /**
+     * Register a callback for when the connection to
+     * the vehicle is lost
+     */
+    // onTimeout: (callback: () => void) => void;
+
     // TODO: Add checkHealth() => Promise<Health>; which can measure
     // round time and signal quality
 }
