@@ -1,3 +1,4 @@
+import { throttle } from "./control/ControlPanel";
 import CopterControlPanel from "./control/CopterControlPanel";
 
 function App() {
@@ -5,11 +6,10 @@ function App() {
         <div>
             <h1>Minipilot GCS</h1>
             <CopterControlPanel
-                sendCommand={(msg) => {
+                sendCommand={throttle(1, (msg) => {
                     console.log("Send:" + msg);
-                    return Promise.resolve(true);
-                }}
-                throttle={1}
+                    return Promise.resolve();
+                })}
             />
         </div>
     );

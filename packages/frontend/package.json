@@ -1,7 +1,6 @@
 {
-  "name": "@minipilot-gcs/web",
-  "version": "0.1.0",
   "private": true,
+  "name": "@minipilot-gcs/web",
   "dependencies": {
     "@minipilot-gcs/proto": "*",
     "@types/node": "^16.18.126",
@@ -18,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clean": "rm -rf node_modules"
+    "clean": "rm -rf node_modules build"
   },
   "eslintConfig": {
     "extends": [
