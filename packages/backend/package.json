@@ -3,7 +3,6 @@
     "name": "@minipilot-gcs/backend",
     "description": "Receive messages from minipilot and provide access points for (or push to) the frontend",
     "main": "dist/main.js",
-    "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
         "clean": "rm -rf dist",
