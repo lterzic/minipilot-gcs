@@ -1,8 +1,8 @@
 import { pb } from "@minipilot-gcs/proto";
 
-export type Command = pb.mp.ICommand;
-export type TelemetryCallback = (msg: pb.mp.ITelemetry) => void;
-export type LogCallback = (msg: pb.mp.ILogMessage) => void;
+export type Command = pb.mp.Command;
+export type TelemetryCallback = (msg: pb.mp.Telemetry) => void;
+export type LogCallback = (msg: pb.mp.LogMessage) => void;
 
 /**
  * Represents the communication interface to the vehicle

@@ -1,7 +1,6 @@
 import { pb } from "@minipilot-gcs/proto";
 import { SimLink } from "./link/SimLink";
 
-
 const simLink = new SimLink("127.0.0.1", 25564, 25565, 0);
 
 simLink.onReceiveTelemetry((telemetry) => {
@@ -9,7 +8,7 @@ simLink.onReceiveTelemetry((telemetry) => {
 });
 
 setTimeout(() => {
-    const command: pb.mp.ICommand = {
+    const command: pb.mp.Command = {
         copter: {
             setAngularVelocity: {
                 thrust: 12,

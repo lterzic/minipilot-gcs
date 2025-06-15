@@ -3,9 +3,9 @@
     "rootDir": "gen",           // ts-proto output location
     "outDir": "dist",
     "declaration": true,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "composite": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true
   },

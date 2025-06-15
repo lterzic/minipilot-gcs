@@ -4,7 +4,7 @@
     "description": "Generated TypeScript definitions from minipilot-proto messages",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "type": "module",
+    "type": "commonjs",
     "scripts": {
         "build": "make build && tsc",
         "clean": "make clean && rm -rf dist"
