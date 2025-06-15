@@ -1,5 +1,5 @@
 import { pb } from "@minipilot-gcs/proto";
-import { SimLink } from "./link/SimLink";
+import { SimLink } from "./link/SimLink.js";
 
 const simLink = new SimLink("127.0.0.1", 25564, 25565, 0);
 

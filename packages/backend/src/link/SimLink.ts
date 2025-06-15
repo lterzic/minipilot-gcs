@@ -1,4 +1,4 @@
-import { Command, IVehicleLink, LogCallback, TelemetryCallback } from "./VehicleLink";
+import { Command, IVehicleLink, LogCallback, TelemetryCallback } from "./VehicleLink.js";
 import { createSocket, Socket } from "dgram";
 import { pb } from "@minipilot-gcs/proto";
 
