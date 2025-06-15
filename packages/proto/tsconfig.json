@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "rootDir": "gen",           // ts-proto output location
+    "outDir": "dist",
+    "declaration": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "composite": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["gen/**/*.ts"]
+}
