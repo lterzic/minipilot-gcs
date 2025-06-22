@@ -8,11 +8,6 @@ type LogCallback = (msg: pb.mp.LogMessage) => void;
  */
 export interface IVehicleLink {
     /**
-     * Establish a connection
-     */
-    connect: () => Promise<void>;
-
-    /**
      * Close the connection so that another
      * connection to the vehicle can be opened
      */

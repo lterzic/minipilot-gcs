@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react';
 import './App.css'
+import { MotorGauge } from './components/dashboard/MotorGauge';
+import { TimeSeries } from './components/dashboard/TimeSeries';
+import { SimLink } from './link/SimLink';
+import type { pb } from '@minipilot-gcs/proto';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [telemetry, setTelemetry] = useState<pb.mp.Telemetry[]>([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    
+    useEffect(() => {
+        const link = new SimLink();
+
+        link.onTelemetry((msg) => {
+            setTelemetry([
+                ...telemetry,
+                msg
+            ]);
+        });
+
+        return () => {
+            link.disconnect();
+        };
+    });
+
+    return (
+        <div>
+            <MotorGauge
+                name={"FL"}
+                motor={{
+                    inputThrottle: 0.78,
+                    angularSpeed: 3
+                }}
+            />
+            <TimeSeries
+                name={"Accelerometer"}
+                t={telemetry.map((v, i) => i * 0.1)}
+                data={[
+                    telemetry.map((v) => v.state?.acceleration?.x ?? 0),
+                    telemetry.map((v) => v.state?.acceleration?.y ?? 0),
+                    telemetry.map((v) => v.state?.acceleration?.z ?? 0)
+                ]}
+            />
+        </div>
+    );
 }
 
 export default App
