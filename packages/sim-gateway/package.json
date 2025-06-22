@@ -1,7 +1,7 @@
 {
     "private": true,
-    "name": "@minipilot-gcs/backend",
-    "description": "Receive messages from minipilot and provide access points for (or push to) the frontend",
+    "name": "@minipilot-gcs/sim-gateway",
+    "description": "Provide a WebSocket access point to the simulator",
     "main": "dist/index.js",
     "type": "module",
     "scripts": {
