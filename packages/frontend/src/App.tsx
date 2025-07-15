@@ -13,10 +13,10 @@ function App() {
         const link = new SimLink();
 
         link.onTelemetry((msg) => {
-            setTelemetry([
-                ...telemetry,
-                msg
-            ]);
+            // setTelemetry([
+            //     ...telemetry,
+            //     msg
+            // ]);
         });
 
         return () => {
