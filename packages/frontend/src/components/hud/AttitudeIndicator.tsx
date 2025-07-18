@@ -1,90 +1,70 @@
 import React, { Fragment, type JSX } from "react";
-import type { EulerAngles } from "../../math/quaternion";
+import type { EulerAngles } from "../../math/rotation";
 import type { HudTheme } from "./HudTheme";
 
 interface AttitudeIndicatorProps {
     // Vehicle orientation in ZYX Euler angles in radians
     eulerAngles: EulerAngles;
-    // Length of the pitch lines
-    pitchLineLength: number;
-    // Distance in pixels between pitch lines
-    pitchVerticalDistance: number;
-    // Show pitch lines in multiples of this interval value
-    pitchIntervalDegrees: number;
-    // Show pitch lines from -pitchAngle to pitchAngle
+    // Pitch lines which can be displayed in degrees
+    pitchMarkers: number[];
+    // Show pitch lines from -pitchAngle to pitchAngle degrees
     // relative to the current pitch
-    pitchRangeDegrees: number;
+    pitchRange: number;
+    // Length of the pitch lines in pixels
+    pitchLineLength: number;
+    // Render distance between pitch lines
+    pixelsPerDegree: number;
     // HUD theme
     theme: HudTheme;
 }
 
 export const AttitudeIndicator: React.FC<AttitudeIndicatorProps> = (props) => {
-    const {pitchIntervalDegrees, pitchLineLength, pitchRangeDegrees, pitchVerticalDistance, theme} = props;
+    const { pitchMarkers, pitchRange, pitchLineLength, pixelsPerDegree, theme } = props;
     const pitch = props.eulerAngles.pitch * 180 / Math.PI;
     const roll = props.eulerAngles.roll * 180 / Math.PI;
 
-    // Check if aircraft is inverted (roll > 90° or roll < -90°)
-    const isInverted = Math.abs(roll) > 90;
+    const minPitchDisplay = pitch - pitchRange;
+    const maxPitchDisplay = pitch + pitchRange;
 
-    // Adjust pitch display for inverted flight
-    const displayPitch = isInverted ? -pitch : pitch;
-    const displayRoll = isInverted ? roll + (roll > 0 ? -180 : 180) : roll;
+    const pitchDisplayMarkers = pitchMarkers
+        .filter((v) => v >= minPitchDisplay && v <= maxPitchDisplay)
+        .map((v) => ({ pitch: v, verticalOffset: (pitch - v) * pixelsPerDegree }));
 
-    // Generate pitch lines
-    const generatePitchLines = () => {
-        const pitchLines = [];
-        const pitchPixelsPerDegree = pitchVerticalDistance / pitchIntervalDegrees;
-
-        // Calculate the range of pitch angles to display
-        const minPitch = Math.ceil((displayPitch - pitchRangeDegrees) / pitchIntervalDegrees) * pitchIntervalDegrees;
-        const maxPitch = Math.floor((displayPitch + pitchRangeDegrees) / pitchIntervalDegrees) * pitchIntervalDegrees;
-
-        for (let pitchAngle = minPitch; pitchAngle <= maxPitch; pitchAngle += pitchIntervalDegrees) {
-            // Calculate vertical position relative to current pitch
-            const yOffset = -(pitchAngle - displayPitch) * pitchPixelsPerDegree;
-            
-            pitchLines.push({
-                pitch: pitchAngle,
-                yOffset: yOffset
-            });
-        }
-
-        return pitchLines
+    const drawPitchMarker = (v: typeof pitchDisplayMarkers[number]) => {
+        const lineRadius = pitchLineLength / 2;
+        return (<Fragment key={v.verticalOffset}>
+            <line
+                x1={-lineRadius}
+                x2={lineRadius}
+                y1={v.verticalOffset}
+                y2={v.verticalOffset}
+                stroke={theme.lineColor}
+                strokeWidth={theme.lineWidth}
+            />
+            <text
+                x={-lineRadius}
+                y={v.verticalOffset}
+                textAnchor="end"
+                fill={theme.lineColor}
+                fontSize={theme.fontSize}
+            >
+                {Math.abs(v.pitch)}°
+            </text>
+            <text
+                x={lineRadius}
+                y={v.verticalOffset}
+                textAnchor="start"
+                fill={theme.lineColor}
+                fontSize={theme.fontSize}
+            >
+                {Math.abs(v.pitch)}°
+            </text>
+        </Fragment>);
     };
 
     return (
-        <g transform={`rotate(${displayRoll}, ${pitchLineLength / 2}, 0)`}>
-            {generatePitchLines().map((line) => (
-                <Fragment key={line.pitch}>
-                    <line
-                        key={line.pitch}
-                        x1={0}
-                        x2={pitchLineLength}
-                        y1={line.yOffset}
-                        y2={line.yOffset}
-                        stroke={theme.lineColor}
-                        strokeWidth={theme.lineWidth}
-                    ></line>
-                    <text
-                        x={0}
-                        y={line.yOffset}
-                        fill={theme.lineColor}
-                        fontSize={theme.fontSize}
-                        textAnchor="end"
-                    >
-                        {Math.abs(line.pitch)}°
-                    </text>
-                    <text
-                        x={pitchLineLength}
-                        y={line.yOffset}
-                        fill={theme.lineColor}
-                        fontSize={theme.fontSize}
-                        textAnchor="start"
-                    >
-                        {Math.abs(line.pitch)}°
-                    </text>
-                </Fragment>
-            ))}
+        <g transform={`rotate(${roll})`}>
+            {pitchDisplayMarkers.map((v) => drawPitchMarker(v))}
         </g>
     );
 };
