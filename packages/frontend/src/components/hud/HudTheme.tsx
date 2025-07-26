@@ -1,5 +1,8 @@
 export interface HudTheme {
-    lineColor: string;
-    lineWidth: number;
+    // Line color
+    stroke: string;
+    // Line width
+    strokeWidth: number;
+    // Font size
     fontSize: number;
 }

@@ -39,15 +39,13 @@ export const AttitudeIndicator: React.FC<AttitudeIndicatorProps> = (props) => {
                 x2={lineRadius}
                 y1={v.verticalOffset}
                 y2={v.verticalOffset}
-                stroke={theme.lineColor}
-                strokeWidth={theme.lineWidth}
+                {...theme}
             />
             <text
                 x={-lineRadius}
                 y={v.verticalOffset}
                 textAnchor="end"
-                fill={theme.lineColor}
-                fontSize={theme.fontSize}
+                {...theme}
             >
                 {Math.abs(v.pitch)}°
             </text>
@@ -55,8 +53,7 @@ export const AttitudeIndicator: React.FC<AttitudeIndicatorProps> = (props) => {
                 x={lineRadius}
                 y={v.verticalOffset}
                 textAnchor="start"
-                fill={theme.lineColor}
-                fontSize={theme.fontSize}
+                {...theme}
             >
                 {Math.abs(v.pitch)}°
             </text>
