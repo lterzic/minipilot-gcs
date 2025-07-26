@@ -10,8 +10,9 @@ interface AttitudeIndicatorProps {
     // Show pitch lines from -pitchAngle to pitchAngle degrees
     // relative to the current pitch
     pitchRange: number;
-    // Length of the pitch lines in pixels
-    pitchLineLength: number;
+    // Left and right endpoints of the line represent
+    // -yawRange and yawRange degrees respectively
+    yawRange: number;
     // Render distance between pitch lines
     pixelsPerDegree: number;
     // HUD theme
@@ -19,7 +20,7 @@ interface AttitudeIndicatorProps {
 }
 
 export const AttitudeIndicator: React.FC<AttitudeIndicatorProps> = (props) => {
-    const { pitchMarkers, pitchRange, pitchLineLength, pixelsPerDegree, theme } = props;
+    const { pitchMarkers, pitchRange, yawRange, pixelsPerDegree, theme } = props;
     const pitch = props.eulerAngles.pitch * 180 / Math.PI;
     const roll = props.eulerAngles.roll * 180 / Math.PI;
 
@@ -31,7 +32,7 @@ export const AttitudeIndicator: React.FC<AttitudeIndicatorProps> = (props) => {
         .map((v) => ({ pitch: v, verticalOffset: (pitch - v) * pixelsPerDegree }));
 
     const drawPitchMarker = (v: typeof pitchDisplayMarkers[number]) => {
-        const lineRadius = pitchLineLength / 2;
+        const lineRadius = yawRange * pixelsPerDegree;
         return (<Fragment key={v.verticalOffset}>
             <line
                 x1={-lineRadius}
