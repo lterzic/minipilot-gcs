@@ -3,12 +3,12 @@
     "private": true,
     "workspaces": [
         "packages/proto",
-        "packages/backend",
+        "packages/sim-gateway",
         "packages/frontend"
     ],
     "scripts": {
         "build": "npm run build --workspaces",
-        "clean": "npm run clean --workspaces && rm -rf node_modules",
+        "clean": "npm run clean --workspaces && rm -rf build",
         "start": "npm run build && npm run start --workspaces"
     }
 }
