@@ -21,13 +21,13 @@ export const AttitudeIndicatorTest: React.FC = () => {
                     <g transform="translate(300 300)">
                         <AttitudeIndicator
                             eulerAngles={eulerAngles}
-                            pitchLineLength={100}
+                            yawRange={10}
                             pitchRange={16}
                             pitchMarkers={[-60, -45, -30, -15, -10, -5, 0, 5, 10, 15, 30, 45, 60]}
                             pixelsPerDegree={20}
                             theme={{
-                                lineColor: "black",
-                                lineWidth: 2,
+                                stroke: "black",
+                                strokeWidth: 2,
                                 fontSize: 10
                             }}
                         />

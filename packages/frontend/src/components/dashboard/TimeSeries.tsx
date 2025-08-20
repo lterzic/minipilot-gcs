@@ -1,8 +1,9 @@
 import { LineChart } from "@mui/x-charts";
 
 export interface ITimeSeriesProps {
-    name: string;
+    // Sample time points
     t: number[];
+    // Array of data points for each plot line
     data: number[][];
 }
 
@@ -16,7 +17,6 @@ export function TimeSeries(props: ITimeSeriesProps) {
                 showMark: false,
                 data: samples
             }))}
-            title={props.name}
         />
     );
 }
