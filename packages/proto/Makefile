@@ -13,6 +13,7 @@ build: clean
 		--ts_proto_opt=outputIndex=true \
 		--ts_proto_opt=esModuleInterop=true \
 		--ts_proto_opt=importSuffix=.js \
+		--ts_proto_opt=oneof=unions-value \
 		--ts_proto_out=$(OUT_DIR) \
 		-I=$(SRC_DIR) \
 		$(SRCS)
